@@ -63,13 +63,9 @@ export const CalendarReducer = (state = initialState, action) => {
                 notes: state.notes.filter(elem => elem.id !== action.payload)
             }
         case types.SET_NEW_ITEM:
-
             return {
-
                 ...state,
-
                 isEditing: false
-
             }
         default:
 

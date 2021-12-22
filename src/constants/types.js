@@ -7,5 +7,4 @@ export const types = {
     SAVE_NEW: 'SAVE_NEW',
     DELETE_EVENT: 'DELETE_EVENT',
     SET_NEW_ITEM: 'SET_NEW_ITEM',
-
 }

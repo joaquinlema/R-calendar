@@ -8,31 +8,23 @@ import 'moment/locale/es';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { openModal } from '../../actions/ModalActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 moment.locale('es');
 const localizer = momentLocalizer(moment);
 
-const event = [{
-    title: 'test',
-    start: moment().toDate(),
-    end: moment().add(2, 'days').toDate(),
-    bgcolor: 'blue',
-    user: {
-        name: 'joaquin',
-        uid: 123
-    }
-}]
-
 export const CalendarScreen = () => {
 
     const [lastView, setlastView] = useState(localStorage.getItem('lastView') || 'month');
+    const { notes } = useSelector(state => state.calendarReducer);
     const dispatch = useDispatch();
+
     const onDoubleClickEvent = (e) => {
 
     }
 
     const onSelectEvent = (e) => {
+        console.log('click ')
         dispatch(openModal());
     }
 
@@ -46,8 +38,9 @@ export const CalendarScreen = () => {
             <Navbar />
 
             <Calendar
+                selectable
                 localizer={localizer}
-                events={event}
+                events={notes}
                 startAccessor="start"
                 endAccessor="end"
                 messages={messages}
@@ -55,6 +48,7 @@ export const CalendarScreen = () => {
                 onDoubleClickEvent={onDoubleClickEvent}
                 onView={onViewEvent}
                 onSelectEvent={onSelectEvent}
+                onSelectSlot={onSelectEvent}
                 view={lastView}
             />
 

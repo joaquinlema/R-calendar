@@ -4,6 +4,7 @@ import { CalendarForm } from './CalendarForm';
 import '../../styles/modal.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { closeModal } from '../../actions/ModalActions';
 
 const customStyles = {
     content: {
@@ -23,14 +24,14 @@ export const CalendarModal = () => {
     const {open} = useSelector(state => state.modalReducer);
     const dispatch = useDispatch();
 
-    const closeModal = () => {
+    const close = () => {
         dispatch(closeModal())
     }
 
     return (
         <Modal
             isOpen={open}
-            onRequestClose={closeModal}
+            onRequestClose={close}
             style={customStyles}
             className='modal'
             overlayClassName='modal-fondo'

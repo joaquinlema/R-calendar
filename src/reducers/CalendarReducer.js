@@ -1,9 +1,18 @@
+import moment from 'moment';
 import { types } from '../constants/types';
 
 const initialState = {
     loading: false,
-    heroes: [],
-    hereoselected: {},
+    notes: [{
+        title: 'test',
+        start: moment().toDate(),
+        end: moment().add(2, 'days').toDate(),
+        bgcolor: 'blue',
+        user: {
+            name: 'joaquin',
+            uid: 123
+        }
+    }],
     error: ''
 }
 
@@ -15,29 +24,16 @@ export const CalendarReducer = (state = initialState, action) => {
                 ...state,
                 loading: true
             }
-        case types.SET_HEROES:
-
+        case types.GET_NOTES:
             return {
                 ...state,
                 loading: false,
-                heroes: action.payload
-
-            }
-        case types.SET_HEREO_BY_ID:
-
-            return {
-                ...state,
-                loading: false,
-                hereoselected: action.payload
+                notes: action.payload
             }
         case types.SET_ERROR:
-
             return {
-
                 ...state,
-
                 error: action.payload
-
             }
         default:
 

@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from 'react-modal';
 import { CalendarForm } from './CalendarForm';
 import '../../styles/modal.css';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const customStyles = {
     content: {
@@ -18,20 +20,16 @@ Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
 
-    const [modalIsOpen, setIsOpen] = React.useState(true);
-
-    //INFO: ESTAS FUNCIONES DEL MODAL VANA APASAR A REDUX
-    const openModal = () => {
-        setIsOpen(true);
-    }
+    const {open} = useSelector(state => state.modalReducer);
+    const dispatch = useDispatch();
 
     const closeModal = () => {
-        setIsOpen(false);
+        dispatch(closeModal())
     }
 
     return (
         <Modal
-            isOpen={modalIsOpen}
+            isOpen={open}
             onRequestClose={closeModal}
             style={customStyles}
             className='modal'

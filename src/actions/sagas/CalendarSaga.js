@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { types } from '../../const/types';
+import { types } from '../../constants/types';
 import { apiCall } from '../api';
 
 // export function* getHeroes(payload) {

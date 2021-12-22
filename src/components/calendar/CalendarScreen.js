@@ -9,6 +9,7 @@ import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { openModal } from '../../actions/ModalActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { setEditEvent, setNewItem } from '../../actions/CalendarActions';
 
 moment.locale('es');
 const localizer = momentLocalizer(moment);
@@ -24,7 +25,12 @@ export const CalendarScreen = () => {
     }
 
     const onSelectEvent = (e) => {
-        console.log('click ')
+        dispatch(setEditEvent(e));
+        dispatch(openModal());
+    }
+
+    const onSelectSpot = (e) => {
+        dispatch(setNewItem());
         dispatch(openModal());
     }
 
@@ -48,7 +54,7 @@ export const CalendarScreen = () => {
                 onDoubleClickEvent={onDoubleClickEvent}
                 onView={onViewEvent}
                 onSelectEvent={onSelectEvent}
-                onSelectSlot={onSelectEvent}
+                onSelectSlot={onSelectSpot}
                 view={lastView}
             />
 

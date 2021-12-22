@@ -1,47 +1,78 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
+import { useDispatch, useSelector } from 'react-redux';
+import { createEvent, deleteEvent, saveEditEvent } from '../../actions/CalendarActions';
+import { closeModal } from '../../actions/ModalActions';
 
 let schema = yup.object().shape({
-    initialDate: yup.date().max(yup.ref('endDate'),({max}) => `*Error en fecha debe ser menor qeu fecha final` ).required('*Campo requerido'),
-    endDate: yup.date().min(yup.ref('initialDate'),({min}) => `*Error en fecha debe ser mayor qeu fecha inicial` ).required('*Campo requerido'),
+    start: yup.date().max(yup.ref('end'), ({ max }) => `*Error en fecha debe ser menor qeu fecha final`).required('*Campo requerido'),
+    end: yup.date().min(yup.ref('start'), ({ min }) => `*Error en fecha debe ser mayor qeu fecha inicial`).required('*Campo requerido'),
     title: yup.string().min(1,'*Titulo Debe tener algun valor').required('*Campo requerido'),
     notes: yup.string().min(1,'*Notes Debe tener algun valor').required('*Campo requerido')
 });
 
 const now = moment().minutes(0).seconds(0).toDate();
-const end = moment().add('days', 1).minutes(0).seconds(0).toDate();
+const endDate = moment().add('days', 1).minutes(0).seconds(0).toDate();
 
 export const CalendarForm = () => {
 
-    const { control, register, handleSubmit, formState:{ errors },getValues } = useForm({
-        resolver: yupResolver(schema),
-        defaultValues: {
-            initialDate: now,
-            endDate: end,
-            title: '',
-            notes: ''
+    const { noteSelected, isEditing } = useSelector(state => state.calendarReducer);
+    const [formTitle, setformTitle] = useState('New Event');
+    const dispatch = useDispatch();
+
+    let defaultValues = (isEditing) ? noteSelected : {
+        start: now,
+        end: endDate,
+        title: '',
+        notes: '',
+        user: {
+            name: 'joaquin',
+            uid: 123
         }
+    };
+
+    useEffect(() => {
+        if (isEditing) {
+            setformTitle(`Edit Event ${noteSelected.title}`);
+        }
+    }, [isEditing]);
+
+    const { control, register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: defaultValues
       });
 
     const onSubmit = data => {
-        console.log(data);
+
+        if (isEditing) {
+            dispatch(saveEditEvent(data));
+        }
+        else {
+            dispatch(createEvent(data));
+        }
+        dispatch(closeModal());
     }
-    
-      return (
+
+    const eliminar = () => {
+        dispatch(deleteEvent(noteSelected.id));
+        dispatch(closeModal());
+    }
+
+    return (
         <form onSubmit={handleSubmit(onSubmit)} className="container">
-        <h1> TITULO DEL FORM</h1>
+            <h1> {formTitle} </h1>
 
         <div className="form-group">
             <label>Fecha y hora inicio</label>
 
             <Controller
                 control={control}
-                name='initialDate'
-                {...register("initialDate")}
+                    name='start'
+                    {...register("start")}
                 render={({ field }) => (
                     <DateTimePicker
                         className="form-control"
@@ -53,7 +84,7 @@ export const CalendarForm = () => {
                 )}
             />
 
-            <p className='form-text text-danger'>{errors.initialDate?.message}</p>
+                <p className='form-text text-danger'>{errors.start?.message}</p>
         
         </div>
 
@@ -62,8 +93,8 @@ export const CalendarForm = () => {
 
             <Controller
                 control={control}
-                name='endDate'
-                {...register("endDate")}
+                    name='end'
+                    {...register("end")}
                 render={({ field }) => (
                     <DateTimePicker
                         className="form-control"
@@ -71,12 +102,11 @@ export const CalendarForm = () => {
                             field.onChange(e);
                         }}
                         value={field.value}
-                        minDate={getValues("initialDate")}
                     />
                 )}
             />
 
-            <p className='form-text text-danger text-danger'>{errors.endDate?.message}</p>
+                <p className='form-text text-danger text-danger'>{errors.end?.message}</p>
         
         </div>
 
@@ -113,9 +143,18 @@ export const CalendarForm = () => {
             className="btn btn-outline-primary btn-block"
         >
             <i className="far fa-save"></i>
-            <span> Guardar</span>
-        </button>
-        
+                <span> {({ isEditing }) ? 'Guardar' : 'Editar'}</span>
+            </button>
+
+            {(isEditing) && <button
+                type="button"
+                className="btn btn-outline-secondary btn-block"
+                onClick={eliminar}
+            >
+                <i className="far fa-delete"></i>
+                <span> Borrar</span>
+            </button>
+            }        
       </form>
     )
 }

@@ -28,20 +28,7 @@ export const CalendarForm = () => {
       });
 
     const onSubmit = data => {
-        
         console.log(data);
-
-        //INFO: en teoria valida con el useForm(schema)
-        // try {
-        //     await schema.validate(formData);
-        //     closeModal();
-        // } catch (error) {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: `${error.name}`,
-        //         text: `${error.errors} `,
-        //       })
-        // }
     }
     
       return (

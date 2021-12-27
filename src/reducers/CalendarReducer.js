@@ -70,7 +70,5 @@ export const CalendarReducer = (state = initialState, action) => {
         default:
 
             return state;
-
     }
-
 }

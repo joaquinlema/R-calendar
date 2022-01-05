@@ -1,5 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { startLogin, startRegister } from '../../actions/AuthActions';
 import { useForm } from '../../hooks/useForm';
 import '../../styles/login.css';
@@ -7,6 +8,7 @@ import '../../styles/login.css';
 //TODO: VALIDACIONES DE CADA ATRIBUTO
 export const LoginScreen = () => {
     const dispatch = useDispatch();
+    const { uid } = useSelector(state => state.authReducer);
 
     const initialForm = {
         login_email: 'joaco.lema@hotmail.com',
@@ -50,6 +52,18 @@ export const LoginScreen = () => {
 
         reset();
     }
+
+    let navigate = useNavigate();
+    let location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
+    useEffect(() => {
+
+        if (!!uid) {
+            navigate(from, { replace: true });
+        }
+
+    }, [from, navigate, uid]);
 
     return (
         <div className="container login-container">

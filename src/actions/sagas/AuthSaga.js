@@ -72,7 +72,7 @@ export function* startRegister({ payload }) {
 }
 
 export function* checkLogUser() {
-    const currToken = localStorage.getItem('token');
+    const currToken = localStorage.getItem('token') || '';
 
     const option = {
         method: 'GET',

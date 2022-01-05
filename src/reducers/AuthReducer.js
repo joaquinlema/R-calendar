@@ -25,6 +25,12 @@ export const AuthReducer = (state = initialState, action) => {
                 uid,
                 name
             }
+        case types.SET_ERROR:
+            return {
+                ...state,
+                error: action.payload,
+                checking: false
+            }
         default:
             return state;
     }

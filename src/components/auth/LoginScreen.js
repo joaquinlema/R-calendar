@@ -1,24 +1,53 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { startLogin } from '../../actions/AuthActions';
+import { startLogin, startRegister } from '../../actions/AuthActions';
 import { useForm } from '../../hooks/useForm';
 import '../../styles/login.css';
 
+//TODO: VALIDACIONES DE CADA ATRIBUTO
 export const LoginScreen = () => {
     const dispatch = useDispatch();
 
     const initialForm = {
         login_email: 'joaco.lema@hotmail.com',
         login_password: 123456,
+        reg_name: '',
+        reg_email: '',
+        reg_pass: '',
+        reg_rep_pass: '',
     };
 
     const [formValues, handleInputChange, reset] = useForm(initialForm);
 
-    const { login_email, login_password } = formValues;
+    const {
+        login_email,
+        login_password,
+        reg_name,
+        reg_email,
+        reg_pass,
+        reg_rep_pass,
+    } = formValues;
 
-    const handleSubmit = (e) => {
+    const handleSubmitLogin = (e) => {
         e.preventDefault();
         dispatch(startLogin(login_email, login_password.toString()));
+        reset();
+    }
+
+    const handleSubmitReg = (e) => {
+        e.preventDefault();
+
+        if (reg_pass !== reg_rep_pass) {
+            alert('ops contraseñas no coinciden');
+            return false;
+        }
+
+        dispatch(startRegister(
+            reg_name,
+            reg_email,
+            reg_pass,
+        ));
+
         reset();
     }
 
@@ -27,7 +56,7 @@ export const LoginScreen = () => {
             <div className="row">
                 <div className="col-md-6 login-form-1">
                     <h3>Ingreso</h3>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmitLogin}>
                         <div className="form-group">
                             <input
                                 type="text"
@@ -60,12 +89,15 @@ export const LoginScreen = () => {
 
                 <div className="col-md-6 login-form-2">
                     <h3>Registro</h3>
-                    <form>
+                    <form onSubmit={handleSubmitReg}>
                         <div className="form-group">
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Nombre"
+                                name='reg_name'
+                                value={reg_name}
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className="form-group">
@@ -73,6 +105,9 @@ export const LoginScreen = () => {
                                 type="email"
                                 className="form-control"
                                 placeholder="Correo"
+                                name='reg_email'
+                                value={reg_email}
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className="form-group">
@@ -80,6 +115,9 @@ export const LoginScreen = () => {
                                 type="password"
                                 className="form-control"
                                 placeholder="Contraseña"
+                                name='reg_pass'
+                                value={reg_pass}
+                                onChange={handleInputChange}
                             />
                         </div>
 
@@ -88,6 +126,9 @@ export const LoginScreen = () => {
                                 type="password"
                                 className="form-control"
                                 placeholder="Repita la contraseña"
+                                name='reg_rep_pass'
+                                value={reg_rep_pass}
+                                onChange={handleInputChange}
                             />
                         </div>
 

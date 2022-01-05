@@ -7,16 +7,47 @@ export function* startLogin({ payload }) {
     const { email, password } = payload;
 
     try {
-        const results = yield call(
+        const userInfo = yield call(
             apiCall,
             `${process.env.REACT_APP_API_URL}/auth/`,
             'POST',
             { "email": email, "password": password }
         );
 
-        console.log(results);
+        if (userInfo.ok) {
+            localStorage.setItem('token', userInfo.token);
+            localStorage.setItem('token-timestamp', (new Date()).getTime());
 
-        //        yield put({ type: types.SET_LOGIN_USER, payload: results });
+            yield put({ type: types.AUTH_LOGIN, payload: userInfo });
+        }
+
+
+    } catch (error) {
+        const errorMsj = `Error en api: ${error}`;
+        console.log(errorMsj);
+        yield put({ type: types.SET_ERROR, payload: errorMsj });
+    }
+}
+
+export function* startRegister({ payload }) {
+
+    const { name, email, password } = payload;
+
+    try {
+        const userInfo = yield call(
+            apiCall,
+            `${process.env.REACT_APP_API_URL}/auth/new`,
+            'POST',
+            { name, email, password }
+        );
+
+        if (userInfo.ok) {
+            localStorage.setItem('token', userInfo.token);
+            localStorage.setItem('token-timestamp', (new Date()).getTime());
+
+            yield put({ type: types.AUTH_LOGIN, payload: userInfo });
+        }
+
 
     } catch (error) {
         const errorMsj = `Error en api: ${error}`;
@@ -28,5 +59,5 @@ export function* startLogin({ payload }) {
 //toma como parametro la nombre de la accion que se ejecuta y el metodo a ejecutar
 export default function* authSaga() {
     yield takeLatest(types.AUTH_START_LOGIN, startLogin);
-    // yield takeLatest(types.GET_HEREO_BY_ID, postHeroes);
+    yield takeLatest(types.AUTH_START_REGISTER, startRegister);
 }

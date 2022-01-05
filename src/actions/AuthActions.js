@@ -13,3 +13,9 @@ export const startRegister = (name, email, password) => {
         payload: { name, email, password }
     });
 }
+
+export const checkUserLogin = () => {
+    return ({
+        type: types.AUTH_CHECKING
+    });
+}

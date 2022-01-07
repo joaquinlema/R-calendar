@@ -30,23 +30,21 @@ export const CalendarReducer = (state = initialState, action) => {
         case types.SET_NOTE_EDIT:
             return {
                 ...state,
-                //INFO: ver que carajo devuelve como evento
                 noteSelected: action.payload,
                 isEditing: true
             }
-        case types.SAVE_EDIT:
+        case types.SAVE_EDIT_FINISH:
             return {
                 ...state,
                 isEditing: false,
                 notes: state.notes.map(elem => (elem.id === action.payload.id) ? action.payload : elem)
             }
-        case types.SAVE_NEW:
-
+        case types.SAVE_NEW_FINISH:
             return {
                 ...state,
                 notes: [...state.notes, action.payload],
             }
-        case types.GET_NOTES:
+        case types.GET_NOTES_FINISH:
             return {
                 ...state,
                 loading: false,
@@ -57,7 +55,7 @@ export const CalendarReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload
             }
-        case types.DELETE_EVENT:
+        case types.DELETE_EVENT_FINISH:
             return {
                 ...state,
                 notes: state.notes.filter(elem => elem.id !== action.payload)
@@ -68,7 +66,6 @@ export const CalendarReducer = (state = initialState, action) => {
                 isEditing: false
             }
         default:
-
             return state;
     }
 }

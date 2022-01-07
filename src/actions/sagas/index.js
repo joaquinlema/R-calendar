@@ -7,7 +7,6 @@ export default function* rootSaga() {
     yield all([
         calendarSaga(),
         authSaga()
-        // heroes(),
         // laotrasaga
     ]);
 }

@@ -19,3 +19,13 @@ export const checkUserLogin = () => {
         type: types.AUTH_CHECKING
     });
 }
+
+export const checkOutUser = () => {
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('token-timestamp');
+
+    return ({
+        type: types.AUTH_LOGOUT
+    });
+}

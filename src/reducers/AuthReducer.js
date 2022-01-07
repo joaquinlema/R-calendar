@@ -25,6 +25,13 @@ export const AuthReducer = (state = initialState, action) => {
                 uid,
                 name
             }
+        case types.AUTH_LOGOUT:
+            return {
+                ...state,
+                checking: false,
+                uid: null,
+                name: null
+            }
         case types.SET_ERROR:
             return {
                 ...state,

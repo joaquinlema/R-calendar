@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar } from '../ui/Navbar';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -9,7 +9,7 @@ import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { openModal } from '../../actions/ModalActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEditEvent, setNewItem } from '../../actions/CalendarActions';
+import { getAllEvent, setEditEvent, setNewItem } from '../../actions/CalendarActions';
 
 moment.locale('es');
 const localizer = momentLocalizer(moment);
@@ -20,9 +20,9 @@ export const CalendarScreen = () => {
     const { notes } = useSelector(state => state.calendarReducer);
     const dispatch = useDispatch();
 
-    const onDoubleClickEvent = (e) => {
-
-    }
+    useEffect(() => {
+        dispatch(getAllEvent());
+    }, []);
 
     const onSelectEvent = (e) => {
         dispatch(setEditEvent(e));
@@ -51,7 +51,6 @@ export const CalendarScreen = () => {
                 endAccessor="end"
                 messages={messages}
                 components={{ event: CalendarEvent }}
-                onDoubleClickEvent={onDoubleClickEvent}
                 onView={onViewEvent}
                 onSelectEvent={onSelectEvent}
                 onSelectSlot={onSelectSpot}

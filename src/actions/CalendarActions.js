@@ -7,6 +7,12 @@ export const createEvent = (data) => {
     });
 }
 
+export const getAllEvent = (data) => {
+    return ({
+        type: types.GET_NOTES,
+    });
+}
+
 export const setEditEvent = (data) => {
     return ({
         type: types.SET_NOTE_EDIT,

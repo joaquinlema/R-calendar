@@ -1,7 +1,7 @@
 import { types } from "../constants/types";
 
 const initialState = {
-    open: true
+    open: false
 }
 
 export const modalReducer = (state = initialState, action) => {

@@ -108,8 +108,7 @@ export function* getCalendarEvents({ payload }) {
         headers: {
             'Content-Type': 'application/json',
             'x-token': localStorage.getItem('token')
-        },
-        body: JSON.stringify(payload)
+        }
     }
 
     try {

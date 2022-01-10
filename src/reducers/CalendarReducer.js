@@ -48,7 +48,7 @@ export const CalendarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                notes: action.payload
+                notes: action.payload.eventsAll
             }
         case types.SET_ERROR:
             return {

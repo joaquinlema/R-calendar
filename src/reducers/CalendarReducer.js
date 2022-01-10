@@ -16,7 +16,8 @@ const initialState = {
     }],
     error: '',
     noteSelected: {},
-    isEditing: false
+    isEditing: false,
+    selectedDate: moment().toDate()
 }
 
 export const CalendarReducer = (state = initialState, action) => {
@@ -63,7 +64,8 @@ export const CalendarReducer = (state = initialState, action) => {
         case types.SET_NEW_ITEM:
             return {
                 ...state,
-                isEditing: false
+                isEditing: false,
+                selectedDate: action.payload
             }
         default:
             return state;

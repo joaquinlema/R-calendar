@@ -34,8 +34,9 @@ export const deleteEvent = id => {
     });
 }
 
-export const setNewItem = () => {
+export const setNewItem = (date) => {
     return ({
-        type: types.SET_NEW_ITEM
+        type: types.SET_NEW_ITEM,
+        payload: date
     });
 }

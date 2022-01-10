@@ -22,6 +22,7 @@ export const CalendarScreen = () => {
 
     useEffect(() => {
         dispatch(getAllEvent());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onSelectEvent = (e) => {
@@ -30,7 +31,7 @@ export const CalendarScreen = () => {
     }
 
     const onSelectSpot = (e) => {
-        dispatch(setNewItem());
+        dispatch(setNewItem(e.start));
         dispatch(openModal());
     }
 

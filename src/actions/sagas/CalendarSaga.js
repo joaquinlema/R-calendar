@@ -38,7 +38,7 @@ export function* saveNewItem({ payload }) {
 export function* updateItem({ payload }) {
 
     const option = {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'x-token': localStorage.getItem('token')
@@ -54,7 +54,7 @@ export function* updateItem({ payload }) {
         );
 
         if (eventUpdateInfo.ok) {
-            yield put({ type: types.SAVE_EDIT_FINISH, payload: eventUpdateInfo });
+            yield put({ type: types.SAVE_EDIT_FINISH, payload: eventUpdateInfo.eventoActualizado });
         } else {
             const errorMsj = `Error en updateEvent: ${eventUpdateInfo.msg}`;
             console.log(errorMsj);
@@ -81,12 +81,12 @@ export function* deleteItem({ payload }) {
     try {
         const deleteDataInfo = yield call(
             apiCall,
-            `${process.env.REACT_APP_API_URL}/events/${payload.id}`,
+            `${process.env.REACT_APP_API_URL}/events/${payload}`,
             option
         );
 
         if (deleteDataInfo.ok) {
-            yield put({ type: types.DELETE_EVENT_FINISH, payload: deleteDataInfo });
+            yield put({ type: types.DELETE_EVENT_FINISH, payload: payload });
 
         } else {
             const errorMsj = `Error en deleteData: ${deleteDataInfo.msg}`;

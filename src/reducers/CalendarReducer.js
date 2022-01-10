@@ -42,7 +42,7 @@ export const CalendarReducer = (state = initialState, action) => {
         case types.SAVE_NEW_FINISH:
             return {
                 ...state,
-                notes: [...state.notes, action.payload],
+                notes: [...state.notes, action.payload.eventSave],
             }
         case types.GET_NOTES_FINISH:
             return {

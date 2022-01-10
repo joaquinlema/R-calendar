@@ -2,7 +2,7 @@ import { put, call, takeLatest } from 'redux-saga/effects';
 import { types } from '../../constants/types';
 import { apiCall } from '../api';
 
-export function* saveNewItem({ dataEvent }) {
+export function* saveNewItem({ payload }) {
 
     const option = {
         method: 'POST',
@@ -10,7 +10,7 @@ export function* saveNewItem({ dataEvent }) {
             'Content-Type': 'application/json',
             'x-token': localStorage.getItem('token')
         },
-        body: JSON.stringify(dataEvent)
+        body: JSON.stringify(payload)
     }
 
     try {
@@ -35,7 +35,7 @@ export function* saveNewItem({ dataEvent }) {
     }
 }
 
-export function* updateItem({ updateData }) {
+export function* updateItem({ payload }) {
 
     const option = {
         method: 'POST',
@@ -43,13 +43,13 @@ export function* updateItem({ updateData }) {
             'Content-Type': 'application/json',
             'x-token': localStorage.getItem('token')
         },
-        body: JSON.stringify(updateData)
+        body: JSON.stringify(payload)
     }
 
     try {
         const eventUpdateInfo = yield call(
             apiCall,
-            `${process.env.REACT_APP_API_URL}/events/${updateData.id}`,
+            `${process.env.REACT_APP_API_URL}/events/${payload.id}`,
             option
         );
 
@@ -68,7 +68,7 @@ export function* updateItem({ updateData }) {
     }
 }
 
-export function* deleteItem({ deleteData }) {
+export function* deleteItem({ payload }) {
 
     const option = {
         method: 'DELETE',
@@ -81,7 +81,7 @@ export function* deleteItem({ deleteData }) {
     try {
         const deleteDataInfo = yield call(
             apiCall,
-            `${process.env.REACT_APP_API_URL}/events/${deleteData.id}`,
+            `${process.env.REACT_APP_API_URL}/events/${payload.id}`,
             option
         );
 
@@ -101,7 +101,7 @@ export function* deleteItem({ deleteData }) {
     }
 }
 
-export function* getCalendarEvents({ userData }) {
+export function* getCalendarEvents({ payload }) {
 
     const option = {
         method: 'GET',
@@ -109,7 +109,7 @@ export function* getCalendarEvents({ userData }) {
             'Content-Type': 'application/json',
             'x-token': localStorage.getItem('token')
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(payload)
     }
 
     try {

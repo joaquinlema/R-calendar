@@ -37,7 +37,6 @@
     max-width: 500px;
     outline: none;
     padding: 10px;
-    scroll-behavior: auto;
 }
 
 .react-datetime-picker input:focus {
